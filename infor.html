@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Advanced College Portal</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        .content-wrapper {
+            margin-bottom: 40px;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .card-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 250px;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card h3 {
+            color: #4CAF50;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-section {
+            margin-top: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"], textarea, select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 14px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            background: #333;
+            color: white;
+            padding: 15px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Advanced College Portal</h1>
+    <p>Your one-stop solution for news, events, and announcements</p>
+</header>
+
+<div class="container">
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="searchBar" placeholder="Search by title or details..." onkeyup="filterContent()">
+    </div>
+
+    <!-- Content Section -->
+    <div class="content-wrapper">
+        <h2>Content List</h2>
+        <div class="card-wrapper" id="contentList"></div>
+    </div>
+
+    <!-- Add New Content Form -->
+    <div class="form-section">
+        <h2>Add New Information</h2>
+        <form id="contentForm">
+            <label for="category">Category:</label>
+            <select id="category">
+                <option value="news">News</option>
+                <option value="events">Events</option>
+                <option value="announcements">Announcements</option>
+            </select>
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" required>
+
+            <label for="details">Details:</label>
+            <textarea id="details" required></textarea>
+
+            <button type="submit">Add Information</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 XYZ College. All rights reserved.</p>
+</footer>
+
+<script>
+    const contentList = JSON.parse(localStorage.getItem('contentList')) || [];
+
+    function displayContent() {
+        const contentListElement = document.getElementById('contentList');
+        contentListElement.innerHTML = contentList.map((content, index) => `
+            <div class="card" onclick="viewContent(${index})">
+                <h3>${content.title}</h3>
+                <p>${content.details.substring(0, 50)}...</p>
+                <small><strong>Category:</strong> ${content.category}</small>
+            </div>
+        `).join('');
+    }
+
+    function viewContent(index) {
+        const content = contentList[index];
+        alert(`Title: ${content.title}\nCategory: ${content.category}\nDetails: ${content.details}`);
+    }
+
+    document.getElementById('contentForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const category = document.getElementById('category').value;
+        const title = document.getElementById('title').value;
+        const details = document.getElementById('details').value;
+
+        contentList.push({ category, title, details });
+        localStorage.setItem('contentList', JSON.stringify(contentList));
+
+        document.getElementById('contentForm').reset();
+        displayContent();
+    });
+
+    function filterContent() {
+        const query = document.getElementById('searchBar').value.toLowerCase();
+        const filteredContent = contentList.filter(content =>
+            content.title.toLowerCase().includes(query) || content.details.toLowerCase().includes(query)
+        );
+        const contentListElement = document.getElementById('contentList');
+        contentListElement.innerHTML = filteredContent.map((content, index) => `
+            <div class="card" onclick="viewContent(${index})">
+                <h3>${content.title}</h3>
+                <p>${content.details.substring(0, 50)}...</p>
+                <small><strong>Category:</strong> ${content.category}</small>
+            </div>
+        `).join('');
+    }
+
+    // Load the content when the page loads
+    window.onload = displayContent;
+</script>
+</body>
+</html>

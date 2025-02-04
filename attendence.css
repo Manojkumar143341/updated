@@ -1,0 +1,234 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #333;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Gradient */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #6e7dff, #ff91a4);
+    z-index: -2;
+}
+
+/* Floating Bubbles Effect */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    animation: bubbleAnimation 8s infinite;
+}
+
+@keyframes bubbleAnimation {
+    0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Generate bubbles at random positions */
+.bubble:nth-child(1) { left: 5%; width: 40px; height: 40px; animation-duration: 7s; animation-delay: 0s; }
+.bubble:nth-child(2) { left: 15%; width: 50px; height: 50px; animation-duration: 6s; animation-delay: 2s; }
+.bubble:nth-child(3) { left: 30%; width: 60px; height: 60px; animation-duration: 8s; animation-delay: 4s; }
+.bubble:nth-child(4) { left: 50%; width: 70px; height: 70px; animation-duration: 5s; animation-delay: 1s; }
+.bubble:nth-child(5) { left: 70%; width: 80px; height: 80px; animation-duration: 6s; animation-delay: 3s; }
+.bubble:nth-child(6) { left: 85%; width: 45px; height: 45px; animation-duration: 7s; animation-delay: 6s; }
+
+/* Main Container Styles */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    color: #4e5b94;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #ff91a4;
+    color: white;
+    font-size: 1.2rem;
+}
+
+td {
+    background-color: #f9f9f9;
+    font-size: 1rem;
+}
+
+.profile-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.status-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-button i {
+    margin-right: 5px;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #ff91a4;
+}
+
+.modal-content ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 18px;
+}
+
+.modal-content ul li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.settings-btn {
+    background-color: #007bff;
+}
+
+.settings-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Other UI Components */
+.add-student-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.add-student-container input,
+.add-student-container button {
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.student-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.student-actions button {
+    background-color: #dc3545;
+}
+
+.student-actions button:hover {
+    background-color: #c82333;
+}
+
+.upload-photo-container input {
+    margin: 5px 0;
+}
+
+.notification {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: none;
+}

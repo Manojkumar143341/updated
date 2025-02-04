@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .header {
+            background-color:  #6a11cb;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-right: 20px;
+        }
+
+        .profile-header h2 {
+            margin: 0;
+            font-size: 32px;
+            color: #333;
+        }
+
+        .profile-header p {
+            font-size: 18px;
+            color: #777;
+        }
+
+        .details {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+        }
+
+        .details h3 {
+            color: #4CAF50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .footer {
+            background-color:  #6a11cb;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .toggle-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .toggle-button:hover {
+            background-color: #007bb5;
+        }
+
+        .add-faculty-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF6347;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .add-faculty-button:hover {
+            background-color: #e55347;
+        }
+
+        .edit-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FFD700;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .edit-button:hover {
+            background-color: #e6c200;
+        }
+
+        .save-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .save-button:hover {
+            background-color: #218838;
+        }
+
+        .upload-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .upload-button:hover {
+            background-color: #007bb5;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Faculty Profiles</h1>
+    </div>
+
+    <!-- Container for Faculty Profiles -->
+    <div class="container" id="facultyProfiles">
+        <!-- Initial Faculty Profile Example -->
+        <div class="profile" id="faculty1">
+            <div class="profile-header">
+                <img src="https://via.placeholder.com/150" alt="Faculty Image" id="facultyImage1">
+                <div>
+                    <h2 id="facultyName1">Dr. John Doe</h2>
+                    <p id="facultyTitle1">Professor of Computer Science</p>
+                </div>
+            </div>
+
+            <!-- Upload Image Button -->
+            <label for="uploadImage1" class="upload-button">Add Profile Image</label>
+            <input type="file" id="uploadImage1" onchange="uploadImage(event, 1)">
+
+            <a href="javascript:void(0)" onclick="toggleDetails('faculty1Details')" class="toggle-button">Show Details</a>
+
+            <div class="details" id="faculty1Details">
+                <h3>Biography</h3>
+                <p id="facultyBio1">Dr. John Doe is a seasoned academic with over 20 years of experience in the field of Computer Science. He has published numerous research papers and has contributed to various areas including Artificial Intelligence, Machine Learning, and Data Science.</p>
+
+                <h3>Education</h3>
+                <p id="facultyEducation1">Ph.D. in Computer Science - University of XYZ</p>
+                <p id="facultyEducation2">Masters in Computer Science - University of ABC</p>
+                <p id="facultyEducation3">Bachelor of Technology in Computer Engineering - University of PQR</p>
+
+                <h3>Research Interests</h3>
+                <p id="facultyResearch1">Artificial Intelligence, Data Science, Machine Learning, Computer Vision, Natural Language Processing</p>
+
+                <h3>Contact Information</h3>
+                <p id="facultyContact1">Email: johndoe@university.com</p>
+                <p id="facultyContact2">Phone: +1 (123) 456-7890</p>
+                <p id="facultyContact3">Office Hours: Monday - Friday, 10:00 AM - 4:00 PM</p>
+            </div>
+
+            <a href="mailto:johndoe@university.com" class="button">Contact Faculty</a>
+            <a href="javascript:void(0)" class="edit-button" onclick="editFaculty(1)">Edit Profile</a>
+        </div>
+    </div>
+
+    <!-- Add More Faculty Button -->
+    <a href="javascript:void(0)" class="add-faculty-button" onclick="addFaculty()">Add More Faculty</a>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>University Name | Faculty of Computer Science</p>
+    </div>
+
+    <script>
+        // Function to toggle the visibility of the details div
+        function toggleDetails(facultyId) {
+            var details = document.getElementById(facultyId);
+            if (details.style.display === "none" || details.style.display === "") {
+                details.style.display = "block";  // Show details
+            } else {
+                details.style.display = "none";  // Hide details
+            }
+        }
+
+        // Function to enable editing of faculty profile
+        function editFaculty(facultyId) {
+            // Show the save button and make fields editable
+            document.getElementById(`facultyName${facultyId}`).contentEditable = true;
+            document.getElementById(`facultyTitle${facultyId}`).contentEditable = true;
+            document.getElementById(`facultyBio${facultyId}`).contentEditable = true;
+            document.getElementById(`facultyEducation1`).contentEditable = true;
+            document.getElementById(`facultyEducation2`).contentEditable = true;
+            document.getElementById(`facultyEducation3`).contentEditable = true;
+            document.getElementById(`facultyResearch1`).contentEditable = true;
+            document.getElementById(`facultyContact1`).contentEditable = true;
+            document.getElementById(`facultyContact2`).contentEditable = true;
+            document.getElementById(`facultyContact3`).contentEditable = true;
+
+            // Change "Edit Profile" button to "Save Profile"
+            var editButton = document.querySelector(`#faculty${facultyId} .edit-button`);
+            editButton.textContent = "Save Profile";
+            editButton.setAttribute('onclick', `saveFaculty(${facultyId})`);
+        }
+
+        // Function to save the edited profile
+        function saveFaculty(facultyId) {
+            // Make fields non-editable again
+            document.getElementById(`facultyName${facultyId}`).contentEditable = false;
+            document.getElementById(`facultyTitle${facultyId}`).contentEditable = false;
+            document.getElementById(`facultyBio${facultyId}`).contentEditable = false;
+            document.getElementById(`facultyEducation1`).contentEditable = false;
+            document.getElementById(`facultyEducation2`).contentEditable = false;
+            document.getElementById(`facultyEducation3`).contentEditable = false;
+            document.getElementById(`facultyResearch1`).contentEditable = false;
+            document.getElementById(`facultyContact1`).contentEditable = false;
+            document.getElementById(`facultyContact2`).contentEditable = false;
+            document.getElementById(`facultyContact3`).contentEditable = false;
+
+            // Change "Save Profile" button back to "Edit Profile"
+            var editButton = document.querySelector(`#faculty${facultyId} .edit-button`);
+            editButton.textContent = "Edit Profile";
+            editButton.setAttribute('onclick', `editFaculty(${facultyId})`);
+
+            // Save updated profile to localStorage or database
+            let facultyProfiles = JSON.parse(localStorage.getItem("facultyProfiles")) || [];
+            const updatedProfile = {
+                name: document.getElementById(`facultyName${facultyId}`).innerText,
+                title: document.getElementById(`facultyTitle${facultyId}`).innerText,
+                bio: document.getElementById(`facultyBio${facultyId}`).innerText,
+                education: [
+                    document.getElementById(`facultyEducation1`).innerText,
+                    document.getElementById(`facultyEducation2`).innerText,
+                    document.getElementById(`facultyEducation3`).innerText
+                ],
+                research: document.getElementById(`facultyResearch1`).innerText,
+                contact: [
+                    document.getElementById(`facultyContact1`).innerText,
+                    document.getElementById(`facultyContact2`).innerText,
+                    document.getElementById(`facultyContact3`).innerText
+                ]
+            };
+            
+            // Save to localStorage
+            facultyProfiles.push(updatedProfile);
+            localStorage.setItem("facultyProfiles", JSON.stringify(facultyProfiles));
+        }
+
+        // Function to upload a faculty profile image
+        function uploadImage(event, facultyId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(`facultyImage${facultyId}`).src = e.target.result; // Update image display
+                };
+                reader.readAsDataURL(file); // Read the file as Data URL
+            }
+        }
+
+        // Function to add a new faculty profile dynamically
+        function addFaculty() {
+            var facultyContainer = document.getElementById("facultyProfiles");
+
+            // Create a new faculty profile div
+            var facultyCount = facultyContainer.getElementsByClassName("profile").length + 1;
+            var newFacultyDiv = document.createElement("div");
+            newFacultyDiv.classList.add("profile");
+            newFacultyDiv.id = "faculty" + facultyCount;
+
+            // Add the content of the new faculty profile
+            newFacultyDiv.innerHTML = `
+                <div class="profile-header">
+                    <img src="https://via.placeholder.com/150" alt="Faculty Image" id="facultyImage${facultyCount}">
+                    <div>
+                        <h2 id="facultyName${facultyCount}">Dr. Jane Smith</h2>
+                        <p id="facultyTitle${facultyCount}">Associate Professor of Mathematics</p>
+                    </div>
+                </div>
+
+                <!-- Upload Image Button -->
+                <label for="uploadImage${facultyCount}" class="upload-button">Add Profile Image</label>
+                <input type="file" id="uploadImage${facultyCount}" onchange="uploadImage(event, ${facultyCount})">
+
+                <a href="javascript:void(0)" onclick="toggleDetails('faculty${facultyCount}Details')" class="toggle-button">Show Details</a>
+
+                <div class="details" id="faculty${facultyCount}Details">
+                    <h3>Biography</h3>
+                    <p id="facultyBio${facultyCount}">Dr. Jane Smith specializes in abstract algebra and has over 15 years of teaching experience. She is passionate about fostering a strong foundation in mathematics for all her students.</p>
+
+                    <h3>Education</h3>
+                    <p id="facultyEducation1">Ph.D. in Mathematics - University of ABC</p>
+                    <p id="facultyEducation2">Masters in Mathematics - University of XYZ</p>
+                    <p id="facultyEducation3">Bachelor of Arts in Mathematics - University of LMN</p>
+
+                    <h3>Research Interests</h3>
+                    <p id="facultyResearch1">Abstract Algebra, Cryptography, Number Theory</p>
+
+                    <h3>Contact Information</h3>
+                    <p id="facultyContact1">Email: janesmith@university.com</p>
+                    <p id="facultyContact2">Phone: +1 (987) 654-3210</p>
+                    <p id="facultyContact3">Office Hours: Monday - Friday, 11:00 AM - 3:00 PM</p>
+                </div>
+
+                <a href="mailto:janesmith@university.com" class="button">Contact Faculty</a>
+                <a href="javascript:void(0)" class="edit-button" onclick="editFaculty(${facultyCount})">Edit Profile</a>
+            `;
+
+            // Append the new faculty profile to the container
+            facultyContainer.appendChild(newFacultyDiv);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Leave Request Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .details p {
+            margin: 5px 0 15px;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .accept {
+            background-color: #28a745;
+            color: white;
+        }
+        .reject {
+            background-color: #dc3545;
+            color: white;
+        }
+        .status {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Leave Request Details</h2>
+        <div class="details">
+            <label>Full Name:</label>
+            <p id="fullName"></p>
+
+            <label>Email Address:</label>
+            <p id="email"></p>
+
+            <label>Role:</label>
+            <p id="role"></p>
+
+            <label>Leave Start Date:</label>
+            <p id="startDate"></p>
+
+            <label>Leave End Date:</label>
+            <p id="endDate"></p>
+
+            <label>Reason for Leave:</label>
+            <p id="reason"></p>
+
+            <label>Current Address:</label>
+            <p id="address"></p>
+
+            <label>Contact Number:</label>
+            <p id="contactNumber"></p>
+        </div>
+
+        <div class="buttons">
+            <button class="btn accept" onclick="updateStatus('Accepted')">Accept</button>
+            <button class="btn reject" onclick="updateStatus('Rejected')">Reject</button>
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        // Retrieve data from localStorage
+        const formData = JSON.parse(localStorage.getItem('leaveRequest'));
+
+        if (formData) {
+            // Display data on the page
+            document.getElementById('fullName').textContent = formData.fullName;
+            document.getElementById('email').textContent = formData.email;
+            document.getElementById('role').textContent = formData.role;
+            document.getElementById('startDate').textContent = formData.startDate;
+            document.getElementById('endDate').textContent = formData.endDate;
+            document.getElementById('reason').textContent = formData.reason;
+            document.getElementById('address').textContent = formData.address;
+            document.getElementById('contactNumber').textContent = formData.contactNumber;
+
+            // Show status if already accepted/rejected
+            if (formData.status) {
+                updateStatus(formData.status, false);
+            }
+        } else {
+            // If no data found, show an error message
+            document.body.innerHTML = '<h2 style="text-align: center; color: red;">No leave request found!</h2>';
+        }
+
+        // Function to update the status
+        function updateStatus(status, saveToStorage = true) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = `Request has been ${status}.`;
+            statusDiv.style.color = status === 'Accepted' ? '#28a745' : '#dc3545';
+
+            // Save status to localStorage if needed
+            if (saveToStorage && formData) {
+                formData.status = status;
+                localStorage.setItem('leaveRequest', JSON.stringify(formData));
+            }
+        }
+    </script>
+</body>
+</html>

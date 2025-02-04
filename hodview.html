@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD Faculty View</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Profile Card */
+        .profile {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+
+        .profile-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #444;
+        }
+
+        .profile-header p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .like-button, .comment-button {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .like-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .like-button:hover {
+            background-color: #45a049;
+        }
+
+        .comment-button {
+            background-color: #2575fc;
+            color: white;
+        }
+
+        .comment-button:hover {
+            background-color: #1e5fd1;
+        }
+
+        /* Comment Section */
+        .comments-section {
+            margin-top: 15px;
+        }
+
+        .comments-section textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment {
+            background-color: #f5f6fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #6a11cb;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .footer span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>HOD Faculty View</h1>
+    </div>
+
+    <!-- Container -->
+    <div class="container" id="facultyProfilesContainer">
+        <!-- Faculty profiles will be dynamically loaded here -->
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; <span id="currentYear"></span> University Name | Faculty of Computer Science</p>
+    </div>
+
+    <script>
+        function loadFacultyProfiles() {
+            const profiles = JSON.parse(localStorage.getItem('facultyProfiles')) || [];
+            const container = document.getElementById('facultyProfilesContainer');
+
+            container.innerHTML = profiles.length
+                ? profiles.map((profile, index) => `
+                    <div class="profile">
+                        <div class="profile-header">
+                            <img src="https://via.placeholder.com/80" alt="Profile Image">
+                            <div>
+                                <h2>${profile.name}</h2>
+                                <p>${profile.title}</p>
+                                <p><strong>Research:</strong> ${profile.research}</p>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button class="like-button" onclick="likeProfile(${index})">Like (<span id="likeCount${index}">${profile.likes || 0}</span>)</button>
+                        </div>
+                      
+                        </div>
+                    </div>
+                `).join('')
+                : '<p>No faculty profiles found.</p>';
+        }
+
+        function likeProfile(index) {
+            const profiles = JSON.parse(localStorage.getItem('facultyProfiles')) || [];
+            profiles[index].likes = (profiles[index].likes || 0) + 1;
+            localStorage.setItem('facultyProfiles', JSON.stringify(profiles));
+            document.getElementById(`likeCount${index}`).innerText = profiles[index].likes;
+        }
+
+        function toggleComments(index) {
+            const commentsSection = document.getElementById(`commentsSection${index}`);
+            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Example faculty profiles for testing
+        if (!localStorage.getItem('facultyProfiles')) {
+            const sampleProfiles = [
+                {
+                    name: "Dr. John Smith",
+                    title: "Professor of AI",
+                    research: "Artificial Intelligence, Machine Learning",
+                    likes: 0,
+                    comments: []
+                },
+                {
+                    name: "Dr. Jane Doe",
+                    title: "Professor of Data Science",
+                    research: "Big Data, Data Analytics",
+                    likes: 0,
+                    comments: []
+                }
+            ];
+            localStorage.setItem('facultyProfiles', JSON.stringify(sampleProfiles));
+        }
+
+        window.onload = loadFacultyProfiles;
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Leave Request Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background-color: #5a0fb0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Leave Request Form for HOD Approval</h2>
+        <form id="leaveForm">
+            <!-- Personal Information -->
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="student">Student</option>
+                <option value="faculty">Faculty</option>
+            </select>
+
+            <label for="startDate">Leave Start Date:</label>
+            <input type="date" id="startDate" name="startDate" required>
+
+            <label for="endDate">Leave End Date:</label>
+            <input type="date" id="endDate" name="endDate" required>
+
+            <label for="reason">Reason for Leave:</label>
+            <textarea id="reason" name="reason" rows="4" required></textarea>
+
+            <!-- Additional Details -->
+            <label for="address">Current Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="contactNumber">Contact Number:</label>
+            <input type="text" id="contactNumber" name="contactNumber" required>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Submit Leave Request</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('leaveForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                role: document.getElementById('role').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                reason: document.getElementById('reason').value,
+                address: document.getElementById('address').value,
+                contactNumber: document.getElementById('contactNumber').value,
+            };
+
+            // Store data in localStorage
+            localStorage.setItem('leaveRequest', JSON.stringify(formData));
+
+            // Redirect to the display page
+            window.location.href = 'leavedisplay.html';
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Leave Request Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            width: 60%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .status {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        .accepted {
+            color: #28a745;
+        }
+        .rejected {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Leave Request Status</h2>
+        <div id="statusMessage" class="status"></div>
+        <p id="details"></p>
+    </div>
+
+    <script>
+        // Retrieve leave request data from localStorage
+        const leaveRequest = JSON.parse(localStorage.getItem('leaveRequest'));
+
+        if (leaveRequest) {
+            // Display status message
+            const statusMessage = document.getElementById('statusMessage');
+            const details = document.getElementById('details');
+
+            if (leaveRequest.status) {
+                statusMessage.textContent = `Your leave request has been ${leaveRequest.status}.`;
+                statusMessage.className = leaveRequest.status === 'Accepted' ? 'status accepted' : 'status rejected';
+
+                // Display leave request details
+                details.innerHTML = `
+                    <strong>Full Name:</strong> ${leaveRequest.fullName}<br>
+                    <strong>Email:</strong> ${leaveRequest.email}<br>
+                    <strong>Role:</strong> ${leaveRequest.role}<br>
+                    <strong>Start Date:</strong> ${leaveRequest.startDate}<br>
+                    <strong>End Date:</strong> ${leaveRequest.endDate}<br>
+                    <strong>Reason:</strong> ${leaveRequest.reason}<br>
+                    <strong>Status:</strong> ${leaveRequest.status}
+                `;
+            } else {
+                statusMessage.textContent = 'No decision has been made yet.';
+            }
+        } else {
+            // If no data, show an error
+            document.body.innerHTML = '<h2 style="text-align: center; color: red;">No leave request found!</h2>';
+        }
+    </script>
+</body>
+</html>
+
+

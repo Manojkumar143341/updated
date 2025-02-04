@@ -1,0 +1,137 @@
+<!-- display-announcements.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Announcements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .announcement {
+            background-color: #e0f7fa;
+            border-left: 5px solid #00bcd4;
+            margin: 15px 0;
+            padding: 15px;
+            position: relative;
+        }
+        .announcement h2 {
+            color: #00796b;
+        }
+        .announcement p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .date {
+            font-style: italic;
+            color: #888;
+        }
+        .empty-message {
+            text-align: center;
+            color: #888;
+        }
+        .button-group {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .button-group button {
+            padding: 5px 10px;
+            font-size: 14px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .edit-button {
+            background-color: #ffa500;
+            color: white;
+        }
+        .edit-button:hover {
+            background-color: #ff8c00;
+        }
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+        }
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Announcements</h1>
+        <div id="announcementBoard"></div>
+        <p class="empty-message" id="emptyMessage">No announcements yet.</p>
+    </div>
+
+    <script>
+        // Retrieve announcements from localStorage
+        const announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+
+        const board = document.getElementById('announcementBoard');
+        const emptyMessage = document.getElementById('emptyMessage');
+
+        if (announcements.length > 0) {
+            emptyMessage.style.display = "none";
+            announcements.forEach((announcement, index) => {
+                const announcementElement = document.createElement('div');
+                announcementElement.classList.add('announcement');
+                announcementElement.innerHTML = `
+                    <h2>${announcement.title}</h2>
+                    <p>${announcement.message}</p>
+                    <p class="date">Posted on: ${announcement.date}</p>
+                    <div class="button-group">
+                        <button class="edit-button" onclick="editAnnouncement(${index})">Edit</button>
+                        <button class="delete-button" onclick="deleteAnnouncement(${index})">Delete</button>
+                    </div>
+                `;
+                board.appendChild(announcementElement);
+            });
+        }
+
+        function deleteAnnouncement(index) {
+            // Remove announcement from the array
+            announcements.splice(index, 1);
+
+            // Save the updated announcements array to localStorage
+            localStorage.setItem('announcements', JSON.stringify(announcements));
+
+            // Reload the page to update the list
+            location.reload();
+        }
+
+        function editAnnouncement(index) {
+            const newTitle = prompt("Edit Announcement Title:", announcements[index].title);
+            const newMessage = prompt("Edit Announcement Message:", announcements[index].message);
+
+            if (newTitle && newMessage) {
+                // Update the announcement
+                announcements[index].title = newTitle;
+                announcements[index].message = newMessage;
+
+                // Save the updated announcements array to localStorage
+                localStorage.setItem('announcements', JSON.stringify(announcements));
+
+                // Reload the page to update the list
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

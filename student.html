@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="student.css">
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Your Profile</h1>
+</header>
+
+<!-- Profile Display Button -->
+<div class="profile-container" id="profile-btn">
+    <span>Profile</span>
+</div>
+
+<!-- Profile Content (Hidden by Default) -->
+<div class="profile-content" id="profile-content">
+    <div class="profile-header">
+        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-image" id="profile-img">
+        <h2 id="student-name">John Doe</h2>
+        <p id="student-id">Student ID: 123456789</p>
+    </div>
+
+    <div class="profile-info">
+        <p><strong>Course:</strong> <span id="student-course">Computer Science</span></p>
+        <p><strong>Email:</strong> <span id="student-email">johndoe@example.com</span></p>
+        <p><strong>Contact:</strong> <span id="student-contact">+1234567890</span></p>
+    </div>
+
+    <!-- Update Profile Section -->
+    <h2>Update Your Profile</h2>
+    <form class="update-form" id="update-form">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" placeholder="Enter Full Name" required />
+
+        <label for="course">Course:</label>
+        <input type="text" id="course" placeholder="Enter Course" required />
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" placeholder="Enter Email" required />
+
+        <label for="contact">Contact Number:</label>
+        <input type="text" id="contact" placeholder="Enter Contact Number" required />
+
+        <label for="profile-image">Profile Picture URL:</label>
+        <input type="text" id="profile-image" placeholder="Enter Profile Picture URL" />
+
+        <button type="submit">Update Profile</button>
+    </form>
+</div>
+
+
+
+<div class="container">
+    <h2>Student Dashboard</h2>
+
+    <!-- Student Feedback Section -->
+    <div class="section" id="feedback-section">
+        <button class="accordion">Give Feedback</button>
+        <div class="panel">
+            <form id="feedback-form">
+                <div class="form-group">
+                    <label for="feedback">Your Feedback:</label>
+                    <textarea id="feedback" rows="4" required></textarea>
+                </div>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leave Request Section -->
+    <div class="section" id="leave-request-section">
+        <button class="accordion">Request Leave</button>
+        <div class="panel">
+            <form id="leave-form">
+                <div class="form-group">
+                    <label for="leave-date">Leave Date:</label>
+                    <input type="date" id="leave-date" required />
+                </div>
+                <div class="form-group">
+                    <label for="leave-reason">Reason for Leave:</label>
+                    <textarea id="leave-reason" rows="4" required></textarea>
+                </div>
+                <button type="submit">Request Leave</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Other Information Section -->
+    <div class="section" id="other-info-section">
+        <button class="accordion">Other Information</button>
+        <div class="panel">
+            <div class="card">
+                <h4>Upcoming Exams</h4>
+                <p>Final exams will begin on 10th January 2024. Be prepared!</p>
+            </div>
+            <div class="card">
+                <h4>Event: College Sports Meet</h4>
+                <p>Join us for the annual Sports Meet on 15th February 2024.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer>
+    <p>&copy; 2024 XYZ University. All rights reserved.</p>
+</footer>
+
+<script>
+    // Show/Hide Profile Content when profile is clicked
+    const profileBtn = document.getElementById('profile-btn');
+    const profileContent = document.getElementById('profile-content');
+
+    profileBtn.addEventListener('click', function() {
+        // Toggle the visibility of profile content
+        if (profileContent.style.display === "block") {
+            profileContent.style.display = "none";
+        } else {
+            profileContent.style.display = "block";
+        }
+    });
+
+    // Handle the update profile form submission
+    document.getElementById('update-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const course = document.getElementById('course').value;
+        const email = document.getElementById('email').value;
+        const contact = document.getElementById('contact').value;
+        const profileImageURL = document.getElementById('profile-image').value;
+
+        // Update profile details dynamically
+        document.getElementById('student-name').textContent = name;
+        document.getElementById('student-course').textContent = course;
+        document.getElementById('student-email').textContent = email;
+        document.getElementById('student-contact').textContent = contact;
+
+        // Update profile picture if URL is provided
+        if (profileImageURL) {
+            document.getElementById('profile-img').src = profileImageURL;
+        }
+
+        // Clear the form fields
+        document.getElementById('update-form').reset();
+        alert('Profile updated successfully!');
+    });
+
+
+    const accordions = document.querySelectorAll(".accordion");
+    accordions.forEach(accordion => {
+        accordion.addEventListener("click", function() {
+            this.classList.toggle("active");
+            const panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    });
+
+    // Handle feedback form submission
+    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const feedback = document.getElementById('feedback').value;
+        alert('Feedback Submitted: ' + feedback);
+        document.getElementById('feedback-form').reset();
+    });
+
+    // Handle leave request form submission
+    document.getElementById('leave-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const leaveDate = document.getElementById('leave-date').value;
+        const leaveReason = document.getElementById('leave-reason').value;
+        alert('Leave Request Submitted\nDate: ' + leaveDate + '\nReason: ' + leaveReason);
+        document.getElementById('leave-form').reset();
+    });
+</script>
+
+</body>
+</html>

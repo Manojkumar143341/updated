@@ -1,0 +1,91 @@
+<!-- submit-announcement.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Announcement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Announcement</h1>
+        <div class="input-group">
+            <input type="text" id="announcementTitle" placeholder="Enter Title">
+        </div>
+        <div class="input-group">
+            <textarea id="announcementMessage" rows="4" placeholder="Enter your message"></textarea>
+        </div>
+        <button onclick="submitAnnouncement()">Submit Announcement</button>
+    </div>
+
+    <script>
+        function submitAnnouncement() {
+            const title = document.getElementById('announcementTitle').value;
+            const message = document.getElementById('announcementMessage').value;
+
+            if (title && message) {
+                const announcement = {
+                    title: title,
+                    message: message,
+                    date: new Date().toLocaleDateString()
+                };
+
+                // Get existing announcements from localStorage, or create a new array
+                let announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+                announcements.push(announcement);
+
+                // Save back to localStorage
+                localStorage.setItem('announcements', JSON.stringify(announcements));
+
+                // Redirect to the announcements display page
+                window.location.href = "today.html";
+            } else {
+                alert("Please fill in both fields!");
+            }
+        }
+    </script>
+</body>
+</html>

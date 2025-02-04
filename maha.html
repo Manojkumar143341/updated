@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Master System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f6f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #4e5b94;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6e7dff;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .add-student-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .add-student-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .add-student-form {
+            display: none;
+            margin-top: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .add-student-form input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .add-student-form button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 16px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .add-student-form button:hover {
+            background-color: #218838;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Attendance Master System</h1>
+        <button class="add-student-button" onclick="toggleForm()">Add Student</button>
+        <div class="add-student-form" id="addStudentForm">
+            <input type="text" id="studentName" placeholder="Enter Student Name">
+            <input type="text" id="studentRoll" placeholder="Enter Roll Number">
+            <button onclick="addStudent()">Submit</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Student Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentTable">
+                <!-- Rows will be added dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const studentTable = document.getElementById('studentTable');
+        const addStudentForm = document.getElementById('addStudentForm');
+        const students = JSON.parse(localStorage.getItem('students')) || [];
+
+        function toggleForm() {
+            addStudentForm.style.display = addStudentForm.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function addStudent() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentRoll = document.getElementById('studentRoll').value.trim();
+
+            if (!studentName || !studentRoll) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            if (students.find(student => student.roll === studentRoll)) {
+                alert('Roll Number already exists!');
+                return;
+            }
+
+            const newStudent = {
+                name: studentName,
+                roll: studentRoll,
+                status: 'Present'
+            };
+
+            students.push(newStudent);
+            localStorage.setItem('students', JSON.stringify(students));
+            addStudentRow(newStudent);
+            alert('Student added successfully!');
+        }
+
+        function addStudentRow(student) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${student.roll}</td>
+                <td>${student.name}</td>
+                <td>${student.status}</td>
+                <td><button class="delete-button" onclick="deleteStudent('${student.roll}', this)">Delete</button></td>
+            `;
+            studentTable.appendChild(row);
+        }
+
+        function deleteStudent(roll, button) {
+            const index = students.findIndex(student => student.roll === roll);
+            if (index !== -1) {
+                students.splice(index, 1);
+                localStorage.setItem('students', JSON.stringify(students));
+                button.parentElement.parentElement.remove();
+                alert('Student deleted successfully!');
+            }
+        }
+
+        // Load students on page load
+        window.onload = function () {
+            students.forEach(addStudentRow);
+        };
+    </script>
+</body>
+</html>
